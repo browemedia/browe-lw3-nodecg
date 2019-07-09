@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Lower Third Panel</title>
+        <meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="./css/bootstrap.min.css">
+		<script src="./js/jquery-3.4.1.min.js"></script>
+        <style>
+            body {
+							background-color: #8db0d3;
+							margin-top: 10px;
+							margin-bottom: 20px;
+						}
+				</style>
+				<script defer type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+				<div class="container">
+						<form class="mb-3" id="lw3-form">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="basic-addon1">Main</span>
+								</div>
+								<input name="lw3main" type="text" class="form-control" placeholder="Main" id="mainLw3Input">
+							</div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="basic-addon1">Secondary</span>
+								</div>
+								<input name="lw3secondary" type="text" class="form-control" placeholder="Secondary" id="secondaryLw3Input">
+							</div>
+							<button id="lw3btn" class="btn btn-primary" type="submit">Update</button>
+						</form>
+						<hr>
+
+						<button class="btn btn-success btn-lg btn-block" id="showlw3">Show</button>
+						<button class="btn btn-danger btn-lg btn-block" id="hidelw3">Hide</button>
+						<!-- <hr>
+						Current text:
+						<div id="current-lw3-main">-----</div>
+						<div id="current-lw3-secondary">-----</div> -->
+				</div>
+				<script>
+						const lw3Rep = nodecg.Replicant('lw3Rep');
+						var lw3Form = document.getElementById('lw3-form')
+	
+						lw3Form.addEventListener('submit', (e) => {
+							e.preventDefault();
+							const formData = new FormData(e.target);
+							const lw3Data = Array.from(formData.entries()).reduce((memo, pair) => ({
+								...memo,
+								[pair[0]]: pair[1],
+							  }), {});
+							//   console.log(lw3Data)
+							  lw3Rep.value.text = lw3Data
+						});
+
+	
+						lw3Rep.on('change', (newValue, oldValue) => {
+							document.getElementById('mainLw3Input').placeholder = newValue.text.lw3main
+							document.getElementById('secondaryLw3Input').placeholder = newValue.text.lw3secondary
+							// document.getElementById('current-lw3-main').innerText = newValue.text.lw3main
+							// document.getElementById('current-lw3-secondary').innerText = newValue.text.lw3secondary
+							if (newValue.isLive == true) {
+								$(document).ready(function(){
+									$("#mainLw3Input").prop("disabled", true);
+									$("#secondaryLw3Input").prop("disabled", true);
+									$("#lw3btn").prop("disabled", true);
+    							});
+							}
+							if (newValue.isLive == false) {
+								$(document).ready(function(){
+        							$("#mainLw3Input").prop("disabled", false);
+									$("#secondaryLw3Input").prop("disabled", false);
+									$("#lw3btn").prop("disabled", false);
+    							});
+							}
+						});
+
+						function showLw3() {
+							nodecg.sendMessage('showlw3')
+							lw3Rep.value.isLive = true
+							console.log(lw3Rep)
+						}
+
+						function hideLw3() {
+							nodecg.sendMessage('hidelw3')
+							lw3Rep.value.isLive = false
+							console.log(lw3Rep)
+						}
+
+						document.getElementById('showlw3').onclick = showLw3
+						document.getElementById('hidelw3').onclick = hideLw3
+					</script>
+    </body>
+</html>

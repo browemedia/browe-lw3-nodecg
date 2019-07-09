@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Lower Third Graphics</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+				<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+        <style>
+					body {
+						width: 1280;
+						height: 720;
+						background-image: url("./img/720_safe_chart.jpg");
+						/* background-image: url("./img/golf.jpg"); */
+						background-repeat: no-repeat;
+						background-size: cover;
+						background-color: transparent;
+						overflow: hidden;
+					}
+					#lw3Wipe {
+						position: absolute;
+						z-index: 2;
+						width: 5px;
+						height: 90px;
+						left: 190px;
+						top: 721px;
+						background-color: #81cfe0;
+					}
+					#lw3container {
+						z-index: 1;
+						display:flex;
+						position: absolute;
+						background-color: #013243;
+						width: 0px;
+						height: 70px;
+						left: 190px;
+						top: 550px;
+						font-family: 'Montserrat', sans-serif;
+						padding: 10px 0px 10px 0px;
+						white-space:nowrap;
+						overflow:hidden;
+					}
+					#lw3-text-wrap {
+						flex-grow: 1;
+						padding-left: 20px;
+					}
+					#lw3-spacer {
+						flex-grow: 3;
+						background-color: blueviolet
+					}
+					#lw3-logo {
+						flex-grow: 1;
+						background-color: chocolate
+					}
+					#current-lw3-main {
+						font-weight: 700;
+						color: white;
+						font-size: 2em;
+					}
+					#current-lw3-secondary {
+						font-weight: 500;
+						color: white;
+						font-size: 1.5em;
+					}
+        </style>
+    </head>
+    <body>
+
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+				<![endif]-->
+			<div id="lw3Wipe"></div>
+			<div id="lw3container">
+				<div id="lw3-text-wrap">
+					<div id="current-lw3-main"></div> 
+					<div id="current-lw3-secondary"></div>
+				</div>
+				<div id="lw3-spacer"></div>
+				<div id="lw3-logo"></div>
+			</div>
+			
+			<script src="./js/jquery-3.4.1.min.js"></script>
+			<script src="./js/TweenMax.min.js"></script>
+			<script>
+				const lw3Rep = nodecg.Replicant('lw3Rep')
+
+				lw3Rep.on('change', (newValue, oldValue) => {
+							document.getElementById('current-lw3-main').innerText = newValue.text.lw3main
+							document.getElementById('current-lw3-secondary').innerText = newValue.text.lw3secondary
+						});
+					
+					// var showlw3 = TweenMax.from('#lw3container', 2, {ease: Power1.easeInOut, y: 721}).pause()
+					// var hidelw3 = TweenMax.to('#lw3container', 2, {ease: Power1.easeInOut, y: 721}).pause()
+
+					var lw3 = document.getElementById('lw3container')
+					var lw3wipe = document.getElementById('lw3Wipe')
+
+					var lw3tl = new TimelineLite();
+					lw3tl.to(lw3wipe, 1, {ease: Power4.easeInOut, top:550})
+					lw3tl.to(lw3wipe, 2, {ease: Power4.easeInOut, x:"900px"})
+					lw3tl.to(lw3, 2, {ease: Power4.easeInOut, width:"900px"}, 1)
+
+							//  .to(lw3wipe, 1, {ease: Power4.easeOut, y:550}, 0)
+					// lw3tl.add(TweenMax.from(lw3, 2, {ease: Power4.easeOut, top:721}))
+					// lw3tl.add(TweenMax.from(lw3wipe, 1, {ease: Power4.easeOut, top:721}, 0))
+					// lw3tl.add(TweenMax.from(lw3, 1, {ease: Power1.easeInOut, width:"2px"}))
+					
+
+					lw3tl.pause();
+					
+					
+					nodecg.listenFor('showlw3', ()=> {
+						lw3tl.play()
+						console.log('show lw3')
+					})
+
+					nodecg.listenFor('hidelw3', ()=> {
+						lw3tl.reverse()
+						console.log('hide lw3')
+					})
+				
+			</script>
+
+    </body>
+</html>

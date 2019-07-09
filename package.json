@@ -1,0 +1,30 @@
+{
+  "name": "lower-third",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brandon Rowe",
+  "license": "ISC",
+  "nodecg": {
+    "compatibleRange": "^1.1.1",
+    "dashboardPanels": [
+      {
+        "name": "lower-third",
+        "title": "Lower Third",
+        "width": 3,
+        "file": "lw3-dash.html",
+        "headerColor": "#34495e"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "lower-third.html",
+        "width": 1280,
+        "height": 720
+      }
+    ]
+  }
+}
