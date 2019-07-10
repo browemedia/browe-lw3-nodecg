@@ -14,7 +14,7 @@
 					body {
 						width: 1280;
 						height: 720;
-						background-image: url("./img/720_safe_chart.jpg");
+						/* background-image: url("./img/720_safe_chart.jpg"); */
 						/* background-image: url("./img/golf.jpg"); */
 						background-repeat: no-repeat;
 						background-size: cover;
@@ -50,11 +50,17 @@
 					}
 					#lw3-spacer {
 						flex-grow: 3;
-						background-color: blueviolet
+						/* background-color: blueviolet */
 					}
 					#lw3-logo {
-						flex-grow: 1;
-						background-color: chocolate
+						/* flex-grow: 1; */
+						/* background-color: chocolate; */
+						width: 100px;
+						height:70px;
+						margin-right: 10px;
+					}
+					#logo {
+						height: 70px;
 					}
 					#current-lw3-main {
 						font-weight: 700;
@@ -65,6 +71,21 @@
 						font-weight: 500;
 						color: white;
 						font-size: 1.5em;
+					}
+					#curr-time {
+						position: absolute;
+						left: 980px;
+						top: 515px;
+						background-color: white;
+						font-weight: 700;
+						width: 80px;
+						height: 30px;
+						font-family: 'Montserrat', sans-serif;
+						font-size: 1.2em;
+						padding: 5px 10px 0px 10px;
+						white-space: nowrap;
+						overflow: hidden;
+						text-align:center;
 					}
         </style>
     </head>
@@ -80,48 +101,61 @@
 					<div id="current-lw3-secondary"></div>
 				</div>
 				<div id="lw3-spacer"></div>
-				<div id="lw3-logo"></div>
+				<div id="lw3-logo"><img id="logo" src="./img/fpt.gif"></div>
 			</div>
+
+			<div id="curr-time"></div>
 			
 			<script src="./js/jquery-3.4.1.min.js"></script>
 			<script src="./js/TweenMax.min.js"></script>
+			<script src="./js/moment.min.js"></script>
 			<script>
 				const lw3Rep = nodecg.Replicant('lw3Rep')
+
+				nodecg.readReplicant('lw3Rep', 'browe-lw3-nodecg', value => {
+					if (value.isLive == true) {
+						lw3tl.seek(2)
+					}
+				});
 
 				lw3Rep.on('change', (newValue, oldValue) => {
 							document.getElementById('current-lw3-main').innerText = newValue.text.lw3main
 							document.getElementById('current-lw3-secondary').innerText = newValue.text.lw3secondary
 						});
 					
-					// var showlw3 = TweenMax.from('#lw3container', 2, {ease: Power1.easeInOut, y: 721}).pause()
-					// var hidelw3 = TweenMax.to('#lw3container', 2, {ease: Power1.easeInOut, y: 721}).pause()
+				// var showlw3 = TweenMax.from('#lw3container', 2, {ease: Power1.easeInOut, y: 721}).pause()
+				// var hidelw3 = TweenMax.to('#lw3container', 2, {ease: Power1.easeInOut, y: 721}).pause()
 
-					var lw3 = document.getElementById('lw3container')
-					var lw3wipe = document.getElementById('lw3Wipe')
+				var lw3 = document.getElementById('lw3container')
+				var lw3wipe = document.getElementById('lw3Wipe')
+				var currTime = document.getElementById('curr-time')
 
-					var lw3tl = new TimelineLite();
-					lw3tl.to(lw3wipe, 1, {ease: Power4.easeInOut, top:550})
-					lw3tl.to(lw3wipe, 2, {ease: Power4.easeInOut, x:"900px"})
-					lw3tl.to(lw3, 2, {ease: Power4.easeInOut, width:"900px"}, 1)
+				var lw3tl = new TimelineLite();
+				lw3tl.to(lw3wipe, .7, {ease: Power4.easeInOut, top:550})
+				lw3tl.to(lw3wipe, .7, {ease: Power4.easeInOut, x:"900px"})
+				lw3tl.to(lw3, .7, {ease: Power4.easeInOut, width:"900px"}, .7)
+				lw3tl.from(currTime, .7, {ease: Power4.easeInOut, top:560, autoAlpha:0})
 
-							//  .to(lw3wipe, 1, {ease: Power4.easeOut, y:550}, 0)
-					// lw3tl.add(TweenMax.from(lw3, 2, {ease: Power4.easeOut, top:721}))
-					// lw3tl.add(TweenMax.from(lw3wipe, 1, {ease: Power4.easeOut, top:721}, 0))
-					// lw3tl.add(TweenMax.from(lw3, 1, {ease: Power1.easeInOut, width:"2px"}))
-					
+				lw3tl.pause();
+				
+				nodecg.listenFor('showlw3', ()=> {
+					lw3tl.play()
+					console.log('show lw3')
+				})
 
-					lw3tl.pause();
-					
-					
-					nodecg.listenFor('showlw3', ()=> {
-						lw3tl.play()
-						console.log('show lw3')
-					})
+				nodecg.listenFor('hidelw3', ()=> {
+					lw3tl.reverse()
+					console.log('hide lw3')
+				})
 
-					nodecg.listenFor('hidelw3', ()=> {
-						lw3tl.reverse()
-						console.log('hide lw3')
-					})
+				$( document ).ready(function() {
+					setInterval(getTime, 1000)
+				});
+
+				function getTime() {
+					var time = moment().format("h:mm A");
+					document.getElementById('curr-time').innerHTML = time;
+				}
 				
 			</script>
 
