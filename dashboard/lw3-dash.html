@@ -21,9 +21,6 @@
 				<script defer type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
 				<div class="container">
 						<form class="mb-3" id="lw3-form">
 							<div class="input-group mb-3">
@@ -74,14 +71,14 @@
 								$(document).ready(function(){
 									$("#mainLw3Input").prop("disabled", true);
 									$("#secondaryLw3Input").prop("disabled", true);
-									$("#lw3btn").prop("disabled", true);
+									$("#lw3btn").prop("disabled", true).attr('class', 'btn btn-secondary');
     							});
 							}
 							if (newValue.isLive == false) {
 								$(document).ready(function(){
         							$("#mainLw3Input").prop("disabled", false);
 									$("#secondaryLw3Input").prop("disabled", false);
-									$("#lw3btn").prop("disabled", false);
+									$("#lw3btn").prop("disabled", false).attr('class', 'btn btn-primary');
     							});
 							}
 						});
